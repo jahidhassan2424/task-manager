@@ -11,38 +11,46 @@ import axios from 'axios';
 import { useState } from 'react';
 import { createContext } from 'react';
 import RightSidebar from './components/RightSidebar';
+import Loading from './components/Loading';
 
 const TaskContext = createContext();
 function App() {
+  const [fetchAgain, setFetchAgain] = useState(false);
   const [tasks, setTasks] = useState([])
   const { isLoading, refetch } = useQuery('tasks', async () => {
     await axios.get(`http://localhost:3001/task`)
       .then(data => setTasks(data.data));
   })
+  if (isLoading) {
+    return <Loading />
+  }
+  if (fetchAgain) {
+    console.log('Yeeeeh !! Fetched At last')
+    refetch();
+    setFetchAgain(false);
+  }
   return (
     <div >
 
       <Routes>
         <Route path='/' element={
-          <TaskContext.Provider value={{ tasks, refetch }}>
+          <TaskContext.Provider value={{ tasks, setFetchAgain }}>
             <Home />
           </TaskContext.Provider>
 
         } >
           <Route path='/completed' element={<CompletedTask />} />
           <Route index element={
-            <TaskContext.Provider value={{ tasks, refetch }}>
-              <ToDo />
-            </TaskContext.Provider>
+            <ToDo />
           } />
           <Route path='/calender' element={
-            <TaskContext.Provider value={{ tasks, refetch }}>
-              <Calender />
-            </TaskContext.Provider>
+            <Calender />
           } />
         </Route>
       </Routes>
-      <ToastContainer />
+      <ToastContainer
+        autoClose={1500}
+      ></ToastContainer>
     </div>
   );
 }

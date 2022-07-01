@@ -22,11 +22,16 @@ const Home = () => {
             </TaskContext.Consumer>
             <Navbar />
 
-            <div className='relative'>
-                <div className='p-10'>
-                    <Outlet />
+            <div className='relative '>
+                <div className='grid grid-cols-[4fr,1fr]'>
+                    <div className='p-10 '>
+                        <Outlet />
+                    </div>
+                    <div>
+                        <RightSidebar />
+                    </div>
                 </div>
-                <RightSidebar />
+
             </div>
         </div>
     );
