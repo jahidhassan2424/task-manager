@@ -10,15 +10,16 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import { useState } from 'react';
 import { createContext } from 'react';
-import RightSidebar from './components/RightSidebar';
 import Loading from './components/Loading';
+
+// https://arrogant-toque-48209.herokuapp.com/
 
 const TaskContext = createContext();
 function App() {
   const [fetchAgain, setFetchAgain] = useState(false);
   const [tasks, setTasks] = useState([])
   const { isLoading, refetch } = useQuery('tasks', async () => {
-    await axios.get(`http://localhost:3001/task`)
+    await axios.get(`https://arrogant-toque-48209.herokuapp.com/task`)
       .then(data => setTasks(data.data));
   })
   if (isLoading) {

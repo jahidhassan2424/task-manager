@@ -52,7 +52,7 @@ const RightSidebar = () => {
             isCompleted: false,
 
         }
-        const res = await axios.post(`http://localhost:3001/task`, task)
+        const res = await axios.post(`https://arrogant-toque-48209.herokuapp.com/task`, task)
         console.log(res.data.acknowledged)
         if (res.data.acknowledged) {
             setFetchAgain(true);
@@ -80,7 +80,7 @@ const RightSidebar = () => {
     const [completed, setCompleted] = useState(false);
     const handleComplete = async (id) => {
         setCompleted(!completed);
-        await axios.post(`http://localhost:3001/task/${id}`)
+        await axios.post(`https://arrogant-toque-48209.herokuapp.com/task/${id}`)
             .then(data => {
                 if (data.data.acknowledged) {
                     setFetchAgain(true);

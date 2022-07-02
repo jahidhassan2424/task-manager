@@ -8,7 +8,7 @@ const ToDoTable = ({ task, index, setFetchAgain, component }) => {
     const [completed, setCompleted] = useState(false);
     const handleComplete = async (id) => {
         setCompleted(!completed);
-        await axios.post(`http://localhost:3001/task/${id}`)
+        await axios.post(`https://arrogant-toque-48209.herokuapp.com/task/${id}`)
             .then(data => {
                 if (data.data.acknowledged) {
                     setFetchAgain(true);

@@ -9,7 +9,7 @@ const CompletedTask = () => {
     const [completedTasks, setCompletedTasks] = useState([]);
     console.log('completedTasks', completedTasks)
     const { isLoading, refetch } = useQuery('completed', () => {
-        axios.get(`http://localhost:3001/task/completed`)
+        axios.get(`https://arrogant-toque-48209.herokuapp.com/task/completed`)
             .then(data => {
 
                 // console.log(data.data)
