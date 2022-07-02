@@ -70,9 +70,7 @@ const RightSidebar = () => {
         minuteArray.push(i)
     }
 
-
     //React Day picker
-
     let footer = <p>Please pick a day.</p>;
     if (date) {
         footer = <p className='font-bold text-blue-500 text-lg'>You picked {format(date, 'PP')}.</p>;
@@ -86,13 +84,10 @@ const RightSidebar = () => {
                     setFetchAgain(true);
                     toast.success('Task added to completed list.')
                 }
-
             })
-
     }
-
     return (
-        <div className='flex md:justify-end md:absolute md:top-0 md:right-0 overflow-x-scroll'>
+        <div className='flex md:justify-end md:absolute md:top-0 md:right-0 overflow-auto [height:100vh]'>
             <TaskContext.Consumer>
                 {(data) => {
                     setData(data);
@@ -199,31 +194,31 @@ const RightSidebar = () => {
 
                     {/* View Task button */}
                     <div hidden={!viewTasks}>
-                        <div className='md:mx-10 h-1/2 mt-5 xs:px-2 '>
+                        <div className='md:mx-10 h-1/2 mt-5 xs:px-2  '>
                             {
                                 tasks?.length > 0
                                     ?
-                                    <div div class="overflow-x-scroll">
+                                    <div div class="">
 
                                         {/* <!-- row 1 --> */}
+                                        <table className=' flex justify-start flex-col gap-3 child:gap-3 child:flex'>
+                                            {
+                                                tasks &&
 
-                                        {
+                                                tasks.map((task, index) =>
+                                                    <ToDoTable
+                                                        key={task._id}
+                                                        task={task}
+                                                        index={index}
+                                                        component={'sideBar'}
+                                                        setFetchAgain={setFetchAgain}
+                                                    >
 
-                                            tasks &&
+                                                    </ToDoTable>
 
-                                            tasks.map((task) => <div className='flex gap-5 border-b border-zinc-400 w-full py-2'
-                                                key={task._id}
-                                            >
-                                                <input for="confirmModal" onChange={() => handleComplete(task._id)} type="checkbox" checked={!completed} class="checkbox" />
-
-                                                <span>{task.message}</span>
-                                            </div>
-
-                                            )
-
-                                        }
-
-
+                                                )
+                                            }
+                                        </table>
                                     </div>
                                     :
                                     <h1 className='md:text-2xl text-lg mt-10'>You have no task remaining!!</h1>

@@ -4,24 +4,27 @@ import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 
-const ToDoTable = ({ task, index, setFetchAgain, component }) => {
+const ToDoTable = ({ task, index, setFetchAgain, component, setViewTasks, setViewTodo }) => {
     const [completed, setCompleted] = useState(false);
     const handleComplete = async (id) => {
         setCompleted(!completed);
         await axios.post(`https://arrogant-toque-48209.herokuapp.com/task/${id}`)
             .then(data => {
                 if (data.data.acknowledged) {
-                    setFetchAgain(true);
-                    toast.success('Task added to completed list.')
+                    toast.success('Task added to completed list.');
                 }
+                setFetchAgain(true);
 
             })
-
     }
+
+
+
+
     return (
-        <tr className='border-b-2 '>
+        <tr className='border-b-2 border-zinc-300 w-full'>
             {
-                (component === 'todo' || component === 'sideBar')
+                (component === 'todo')
                 &&
                 <td>
                     <input for="confirmModal" onChange={() => handleComplete(task._id)} type="checkbox" checked={completed} class="checkbox" />
@@ -34,10 +37,12 @@ const ToDoTable = ({ task, index, setFetchAgain, component }) => {
             {
                 component === 'sideBar'
                     ?
+
                     <>
+                        <td>
+                            <input for="confirmModal" onChange={() => handleComplete(task._id)} type="checkbox" checked={completed} class="checkbox" />
+                        </td>
                         <td>{task.message}</td>
-                        <td>{task.date}</td>
-                        <td>{task.time}</td>
                     </>
                     :
                     <>

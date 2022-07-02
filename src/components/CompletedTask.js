@@ -22,7 +22,7 @@ const CompletedTask = () => {
     }
     return (
         <div>
-            <div className='md:mx-10 h-1/2  '>
+            <div className='md:mx-10 h-1/2'>
                 <h1 h1 className='md:text-3xl text-2xl my-5 py-3 font-bold text-center bg-neutral text-white  md:rounded-xl'>Your Completed Tasks</h1>
 
                 <div class="overflow-x-auto">
@@ -50,7 +50,8 @@ const CompletedTask = () => {
                                     component={'completed'}
                                 >
 
-                                </ToDoTable>)
+                                </ToDoTable>
+                                )
                             }
 
                         </tbody>
