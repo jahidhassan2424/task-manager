@@ -7,7 +7,6 @@ import './styles/CompletedTask.css'
 
 const CompletedTask = () => {
     const [completedTasks, setCompletedTasks] = useState([]);
-    console.log('completedTasks', completedTasks)
     const { isLoading, refetch } = useQuery('completed', () => {
         axios.get(`https://arrogant-toque-48209.herokuapp.com/task/completed`)
             .then(data => {
