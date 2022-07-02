@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import ToDoTable from './ToDoTable';
 import Loading from './Loading';
+import './styles/CompletedTask.css'
 
 const CompletedTask = () => {
     const [completedTasks, setCompletedTasks] = useState([]);
@@ -21,14 +22,16 @@ const CompletedTask = () => {
     }
     return (
         <div>
-            <div className='mx-10 h-1/2 '>
+            <div className='md:mx-10 h-1/2  '>
+                <h1 h1 className='md:text-3xl text-2xl my-5 py-3 font-bold text-center bg-neutral text-white  md:rounded-xl'>Your Completed Tasks</h1>
+
                 <div class="overflow-x-auto">
                     <table class="table w-full">
                         {/* <!-- head --> */}
                         <thead >
                             <tr className='child:text-lg'>
 
-                                <th>Status</th>
+                                <th style={{ position: 'inherit' }}>Status</th>
                                 <th>No</th>
                                 <th>Date</th>
                                 <th>Time</th>
@@ -44,7 +47,7 @@ const CompletedTask = () => {
                                     key={task._id}
                                     task={task}
                                     index={index}
-                                    completedComponent={true}
+                                    component={'completed'}
                                 >
 
                                 </ToDoTable>)

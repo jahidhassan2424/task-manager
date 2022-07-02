@@ -27,9 +27,9 @@ const Navbar = () => {
             </nav >
             <div hidden={phoneRoutes} className={`md:hidden phoneRoutesSection `}>
                 <div className='flex flex-col child:text-center child:text-xl bg-blue-400 child:text-black child:border-b child:border-white'>
-                    <Link to="/home/todo" className='routeElem'><p>To Do</p></Link>
-                    <Link to="/home/completed" className='routeElem'><p>Completed Task</p></Link>
-                    <Link to="/home/calender" className='routeElem'><p>Calender</p></Link>
+                    <Link to="/" className='routeElem'><p>To Do</p></Link>
+                    <Link to="/completed" className='routeElem'><p>Completed Task</p></Link>
+                    <Link to="/calender" className='routeElem'><p>Calender</p></Link>
                 </div>
             </div>
         </div >

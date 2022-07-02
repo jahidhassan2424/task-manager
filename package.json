@@ -10,12 +10,9 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
-    "child_process": "^1.0.2",
     "daisyui": "^2.15.1",
     "date-fns": "^2.28.0",
     "firebase": "^9.8.2",
-    "inquirer": "^8.2.4",
-    "node-cmd": "^5.0.0",
     "react": "^18.1.0",
     "react-calendar": "^3.7.0",
     "react-day-picker": "^8.0.7",
@@ -34,8 +31,9 @@
     "deploy": "react-scripts build && firebase deploy",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "push": "git add . && node gitPush.js && git push",
-    "git-deploy": "git add . && node gitPush.js && git push && react-scripts build && firebase deploy"
+    "push": "git add . && node ../../gitpush/gitpush.js && git push",
+    "git-deploy": "git add . && node ../../gitpush/gitpush.js && git push && react-scripts build && firebase deploy",
+    "git-init": "git init && git add . && git commit -m \"first commit\" && git branch -M main && node ../../gitpush/gitinit.js && git push -u origin main "
   },
   "eslintConfig": {
     "extends": [

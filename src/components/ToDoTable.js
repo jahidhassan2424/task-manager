@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 
-const ToDoTable = ({ task, index, setFetchAgain, completedComponent }) => {
+const ToDoTable = ({ task, index, setFetchAgain, component }) => {
     const [completed, setCompleted] = useState(false);
     const handleComplete = async (id) => {
         setCompleted(!completed);
@@ -19,22 +19,36 @@ const ToDoTable = ({ task, index, setFetchAgain, completedComponent }) => {
 
     }
     return (
-        <tr className='border-b-2'>
+        <tr className='border-b-2 '>
             {
-                !completedComponent
-                    ?
-                    <td>
-                        <input for="confirmModal" onChange={() => handleComplete(task._id)} type="checkbox" checked={completed} class="checkbox" />
-                    </td>
-                    :
-                    <td><FontAwesomeIcon className='text-green-500 text-2xl' icon={faSquareCheck} /></td>
+                (component === 'todo' || component === 'sideBar')
+                &&
+                <td>
+                    <input for="confirmModal" onChange={() => handleComplete(task._id)} type="checkbox" checked={completed} class="checkbox" />
+                </td>
             }
-            <th>{index + 1}</th>
-            <td>{task.date}</td>
-            <td>{task.time}</td>
-            <td>{task.message}</td>
+            {
+                component === 'completed' &&
+                <td td > <FontAwesomeIcon className='text-green-500 text-2xl' icon={faSquareCheck} /></td>
+            }
+            {
+                component === 'sideBar'
+                    ?
+                    <>
+                        <td>{task.message}</td>
+                        <td>{task.date}</td>
+                        <td>{task.time}</td>
+                    </>
+                    :
+                    <>
+                        <th>{index + 1}</th>
+                        <td>{task.date}</td>
+                        <td>{task.time}</td>
+                        <td>{task.message}</td>
+                    </>
+            }
 
-        </tr>
+        </tr >
     );
 };
 

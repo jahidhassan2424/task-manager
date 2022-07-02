@@ -9,14 +9,16 @@ import 'react-day-picker/dist/style.css';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 import { TaskContext } from '../App';
+import ToDoTable from './ToDoTable';
 
 const RightSidebar = () => {
 
     const [date, setDate] = useState(new Date());
-
+    const [viewTodo, setViewTodo] = useState(true);
+    const [viewTasks, setViewTasks] = useState(false);
     //Context api data
     const [data, setData] = useState([])
-    const { setFetchAgain } = data;
+    const { setFetchAgain, tasks } = data;
 
     const { register, handleSubmit, reset } = useForm();
     const resetForm = {
@@ -75,9 +77,22 @@ const RightSidebar = () => {
     if (date) {
         footer = <p className='font-bold text-blue-500 text-lg'>You picked {format(date, 'PP')}.</p>;
     }
+    const [completed, setCompleted] = useState(false);
+    const handleComplete = async (id) => {
+        setCompleted(!completed);
+        await axios.post(`http://localhost:3001/task/${id}`)
+            .then(data => {
+                if (data.data.acknowledged) {
+                    setFetchAgain(true);
+                    toast.success('Task added to completed list.')
+                }
+
+            })
+
+    }
 
     return (
-        <div className='flex justify-end absolute top-0 right-0'>
+        <div className='flex md:justify-end md:absolute md:top-0 md:right-0 overflow-x-scroll'>
             <TaskContext.Consumer>
                 {(data) => {
                     setData(data);
@@ -85,70 +100,134 @@ const RightSidebar = () => {
             </TaskContext.Consumer>
             <div id='right-side-bar' className='bg-blue-50 '>
                 <h1 className='text-3xl text-center'>Tasks</h1>
-                <div className='mx-5 mt-5'>
-                    <div className='flex justify-between '>
-                        <button className='btn  border-0 text-white'>View Tasks</button>
-                        <button className='btn  border-0 text-white'>Add Tasks</button>
-                    </div>
-                    <div>
-                        <div className='mt-10'>
-                            <div >
-                                {/* <Calendar onChange={setDate} value={date} /> */}
-                                <DayPicker
-                                    mode="single"
-                                    selected={date}
-                                    onSelect={setDate}
-                                    footer={footer}
-                                />
+                <div>
+                    <div className='mx-5 mt-5'>
+                        <div className='flex justify-between '>
+                            {
+                                viewTasks
+                                    ?
+                                    <button onClick={() => {
+                                        setViewTasks(true)
+                                        setViewTodo(false)
+                                    }} className='btn bg-blue-500 hover:bg-blue-700  border-0 text-white'>View Tasks</button>
+                                    :
+                                    <button onClick={() => {
+                                        setViewTasks(true)
+                                        setViewTodo(false)
+                                    }} className='btn  border-0 text-white'>View Tasks</button>
+                            }
+                            {
+                                viewTodo
+                                    ?
+                                    <button
+                                        onClick={() => {
+                                            setViewTasks(false)
+                                            setViewTodo(true)
+                                        }}
+                                        className=' btn bg-blue-500 hover:bg-blue-700  border-0 text-white' > Add Tasks</button>
+                                    :
+                                    <button
+                                        onClick={() => {
+                                            setViewTasks(false)
+                                            setViewTodo(true)
+                                        }}
+                                        className='btn  border-0 text-white' > Add Tasks</button>
+                            }
+                        </div>
+                        <div hidden={!viewTodo}>
+                            <div className='mt-10'>
+                                <div >
+                                    {/* <Calendar onChange={setDate} value={date} /> */}
+                                    <DayPicker
+                                        mode="single"
+                                        selected={date}
+                                        onSelect={setDate}
+                                        footer={footer}
+                                    />
 
-                            </div>
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <div>
-                                    {/* <input type="text" className='input border-1 text-lg border-black w-full mt-5' placeholder='Set time'  {...register('time', { required: true })} /> */}
-                                    <div className='border border-black rounded-lg mt-5 p-2'>
-                                        <p className='mt-5 mb-2 text-2xl'>Selected Time:  <br /> </p>
-                                        <div className='flex flex-row justify-between items-center '>
-                                            <div>
-                                                <select name="hour" id="" className='select'
-                                                    {...register('hour')}
-                                                >
-                                                    <option selected value={resetForm.hour}>{resetForm.hour}</option>
-                                                    {
-                                                        hourArray.map(h => <option className='text-lg'>{h}</option>)
-                                                    }
-                                                </select>
-                                            </div>
+                                </div>
+                                <form onSubmit={handleSubmit(onSubmit)}>
+                                    <div>
+                                        {/* <input type="text" className='input border-1 text-lg border-black w-full mt-5' placeholder='Set time'  {...register('time', { required: true })} /> */}
+                                        <div className='border border-black rounded-lg mt-5 p-2 '>
+                                            <p className='mt-5 mb-2 text-2xl'>Selected Time:  <br /> </p>
+                                            <div className='flex flex-row justify-between items-center '>
+                                                <div>
+                                                    <select name="hour" id="" className='select'
+                                                        {...register('hour')}
+                                                    >
+                                                        <option selected value={resetForm.hour}>{resetForm.hour}</option>
+                                                        {
+                                                            hourArray.map(h => <option className='text-lg'>{h}</option>)
+                                                        }
+                                                    </select>
+                                                </div>
 
-                                            <div>
-                                                <select name="minute" id="" className='select'
-                                                    {...register('minute')}
+                                                <div>
+                                                    <select name="minute" id="" className='select'
+                                                        {...register('minute')}
 
-                                                >
-                                                    <option selected value={resetForm.minute}>{resetForm.minute}</option>
-                                                    {
-                                                        minuteArray.map(h => <option className='text-lg'>{h}</option>)
-                                                    }
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <select name="ampm" id=""
-                                                    {...register('ampm', { required: true })}
-                                                >
-                                                    <option selected value="am" className='text-lg'>am</option>
-                                                    <option value="pm" className='text-lg'>pm</option>
-                                                </select>
+                                                    >
+                                                        <option selected value={resetForm.minute}>{resetForm.minute}</option>
+                                                        {
+                                                            minuteArray.map(h => <option className='text-lg'>{h}</option>)
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <select name="ampm" id=""
+                                                        {...register('ampm', { required: true })}
+                                                    >
+                                                        <option selected value="am" className='text-lg'>am</option>
+                                                        <option value="pm" className='text-lg'>pm</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                </div>
-                                <div className='text-center mt-5'>
-                                    <input type="text" className='input border-1 border-black w-full text-lg p-1' placeholder='Tasn Message' {...register('message', { required: true })} />
-                                </div>
-                                <div className='text-center'>
-                                    <button type="submit" className='btn mt-3 w-full text-white'>Add Task</button>
-                                </div>
-                            </form>
+                                    </div>
+                                    <div className='text-center mt-5'>
+                                        <input type="text" className='input border-1 border-black w-full text-lg p-1' placeholder='Tasn Message' {...register('message', { required: true })} />
+                                    </div>
+                                    <div className='text-center'>
+                                        <button type="submit" className='btn mt-3 w-full text-white'>Add Task</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* View Task button */}
+                    <div hidden={!viewTasks}>
+                        <div className='md:mx-10 h-1/2 mt-5 xs:px-2 '>
+                            {
+                                tasks?.length > 0
+                                    ?
+                                    <div div class="overflow-x-scroll">
+
+                                        {/* <!-- row 1 --> */}
+
+                                        {
+
+                                            tasks &&
+
+                                            tasks.map((task) => <div className='flex gap-5 border-b border-zinc-400 w-full py-2'
+                                                key={task._id}
+                                            >
+                                                <input for="confirmModal" onChange={() => handleComplete(task._id)} type="checkbox" checked={!completed} class="checkbox" />
+
+                                                <span>{task.message}</span>
+                                            </div>
+
+                                            )
+
+                                        }
+
+
+                                    </div>
+                                    :
+                                    <h1 className='md:text-2xl text-lg mt-10'>You have no task remaining!!</h1>
+                            }
                         </div>
                     </div>
                 </div>

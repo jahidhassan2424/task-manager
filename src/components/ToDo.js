@@ -14,34 +14,45 @@ const ToDo = () => {
                     setData(data);
                 }}
             </TaskContext.Consumer>
-            <div className='mx-10 h-1/2 '>
-                <div class="overflow-x-auto">
-                    <table class="table w-full">
-                        {/* <!-- head --> */}
-                        <thead>
-                            <tr>
-                                <th>Status</th>
-                                <th>No</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Task</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/* <!-- row 1 --> */}
-                            {
-                                data?.tasks &&
-                                data.tasks.map((task, index) => <ToDoTable
-                                    key={task?._id}
-                                    task={task}
-                                    index={index}
-                                    setFetchAgain={data.setFetchAgain}
-                                ></ToDoTable>)
-                            }
+            <div className='md:mx-10 h-1/2 '>
+                <h1 h1 className='md:text-3xl text-2xl my-5 py-3 font-bold text-center bg-neutral text-white md:rounded-xl'>Your unfinished tasks</h1>
+                {
+                    data?.tasks &&
+                        data.tasks.length > 0
+                        ?
+                        <div>
+                            <div className="overflow-x-auto">
+                                <table class="table w-full">
+                                    {/* <!-- head --> */}
+                                    <thead className=''>
+                                        <tr>
+                                            <th style={{ position: 'inherit' }}>Status</th>
+                                            <th>No</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Task</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {/* <!-- row 1 --> */}
+                                        {
 
-                        </tbody>
-                    </table>
-                </div>
+                                            data.tasks.map((task, index) => <ToDoTable
+                                                key={task?._id}
+                                                task={task}
+                                                index={index}
+                                                setFetchAgain={data.setFetchAgain}
+                                                component={'todo'}
+                                            ></ToDoTable>)
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        :
+                        <h1 className='text-3xl'>You have no remaining task</h1>
+                }
 
             </div>
         </>

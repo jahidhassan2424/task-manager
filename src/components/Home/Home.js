@@ -15,16 +15,11 @@ const Home = () => {
     const [data, setData] = useState([])
     return (
         <div >
-            <TaskContext.Consumer>
-                {(data) => {
-                    setData(data);
-                }}
-            </TaskContext.Consumer>
             <Navbar />
 
             <div className='relative '>
-                <div className='grid grid-cols-[4fr,1fr]'>
-                    <div className='p-10 '>
+                <div className='grid grid-col-1 md:grid-cols-[4fr,1fr] xs:gap-10'>
+                    <div className='md:p-10 overflow-x-auto xs:mt-10'>
                         <Outlet />
                     </div>
                     <div>
