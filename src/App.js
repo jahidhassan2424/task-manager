@@ -26,7 +26,6 @@ function App() {
     return <Loading />
   }
   if (fetchAgain) {
-    console.log('Yeeeeh !! Fetched At last')
     refetch();
     setFetchAgain(false);
   }

@@ -12,7 +12,6 @@ const CompletedTask = () => {
         axios.get(`https://arrogant-toque-48209.herokuapp.com/task/completed`)
             .then(data => {
 
-                // console.log(data.data)
                 setCompletedTasks(data.data)
             }
             )
@@ -36,6 +35,7 @@ const CompletedTask = () => {
                                 <th>Date</th>
                                 <th>Time</th>
                                 <th>Task</th>
+                                <th className='text-center'>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,6 +48,7 @@ const CompletedTask = () => {
                                     task={task}
                                     index={index}
                                     component={'completed'}
+                                    refetch={refetch}
                                 >
 
                                 </ToDoTable>

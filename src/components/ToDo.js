@@ -5,7 +5,6 @@ import ToDoTable from './ToDoTable';
 const ToDo = () => {
     const [data, setData] = useState([])
     if (data?.tasks) {
-        console.log('data in todo', data?.tasks[0])
     }
     return (
         <>

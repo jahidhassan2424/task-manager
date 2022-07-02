@@ -1,6 +1,5 @@
 import React, { memo, useState } from 'react';
 import './styles/RightSidebar.css';
-import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -53,7 +52,6 @@ const RightSidebar = () => {
 
         }
         const res = await axios.post(`https://arrogant-toque-48209.herokuapp.com/task`, task)
-        console.log(res.data.acknowledged)
         if (res.data.acknowledged) {
             setFetchAgain(true);
             toast.success('Task added successfully!')
@@ -66,7 +64,7 @@ const RightSidebar = () => {
     for (let i = 1; i <= 12; i++) {
         hourArray.push(i)
     }
-    for (let i = 1; i <= 59; i++) {
+    for (let i = 0; i <= 59; i++) {
         minuteArray.push(i)
     }
 
@@ -75,17 +73,7 @@ const RightSidebar = () => {
     if (date) {
         footer = <p className='font-bold text-blue-500 text-lg'>You picked {format(date, 'PP')}.</p>;
     }
-    const [completed, setCompleted] = useState(false);
-    const handleComplete = async (id) => {
-        setCompleted(!completed);
-        await axios.post(`https://arrogant-toque-48209.herokuapp.com/task/${id}`)
-            .then(data => {
-                if (data.data.acknowledged) {
-                    setFetchAgain(true);
-                    toast.success('Task added to completed list.')
-                }
-            })
-    }
+
     return (
         <div className='flex md:justify-end md:absolute md:top-0 md:right-0 overflow-auto [height:100vh]'>
             <TaskContext.Consumer>
