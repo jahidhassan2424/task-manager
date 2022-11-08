@@ -1,0 +1,34 @@
+.navbarBody {
+    color: white;
+}
+
+.navbar .routes {
+    font-size: 20px;
+    color: white;
+
+}
+
+.phoneRoutesSection {
+    animation: moveInLeft .2s ease-out;
+
+}
+
+.routeElem {
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.routeElem:hover {
+    background-color: rgba(6, 71, 192, 0.74);
+    color: white;
+}
+
+@keyframes moveInLeft {
+    0% {
+        transform: translateX(100px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+}
